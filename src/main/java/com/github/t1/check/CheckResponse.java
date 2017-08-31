@@ -25,8 +25,8 @@ public class CheckResponse {
         private Summary() {
             this.status = maxStatus();
             Map<Status, Integer> counters = Status.mapOf(0, 0, 0, 0);
-            checks.stream().map(CheckResult::getStatus).forEach(status
-                    -> counters.compute(status, (key, value) -> value + 1));
+            checks.stream().map(CheckResult::getStatus)
+                  .forEach(status -> counters.compute(status, (key, value) -> value + 1));
             this.counters = unmodifiableMap(counters);
         }
 
@@ -38,13 +38,6 @@ public class CheckResponse {
                          .orElse(OK);
         }
 
-        private Status summaryStatus(Status status) {
-            switch (status) {
-            case UNKNOWN:
-                return OK;
-            default:
-                return status;
-            }
-        }
+        private Status summaryStatus(Status status) { return (status == UNKNOWN) ? OK : status; }
     }
 }

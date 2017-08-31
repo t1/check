@@ -7,7 +7,7 @@ public enum Status {
 
 
     public static Map<Status, Integer> mapOf(int ok, int unknown, int warning, int failure) {
-        EnumMap<Status, Integer> map = new EnumMap<>(Status.class);
+        Map<Status, Integer> map = new EnumMap<>(Status.class);
         map.put(OK, ok);
         map.put(UNKNOWN, unknown);
         map.put(WARNING, warning);
