@@ -1,0 +1,7 @@
+Summary WARNING -- OK=3, UNKNOWN=2, WARNING=1, FAILURE=0
+com.github.t1.check.OkCheck OK -- foo
+com.github.t1.check.WarningCheck WARNING -- bar
+com.github.t1.check.UnknownCheck UNKNOWN -- baz
+com.github.t1.check.OkCheck OK -- foo
+com.github.t1.check.UnknownCheck UNKNOWN -- baz
+com.github.t1.check.OkCheck OK -- foo
