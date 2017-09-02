@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>System Checks</title>
+    <style>
+        table, tr, td {
+            border: 1pt solid;
+            padding: 3pt;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <tbody>
+    <tr>
+        <th>Summary</th>
+        <td>WARNING</td>
+    </tr>
+    <tr>
+        <th>OK</th>
+        <td>3</td>
+    </tr>
+    <tr>
+        <th>UNKNOWN</th>
+        <td>2</td>
+    </tr>
+    <tr>
+        <th>WARNING</th>
+        <td>1</td>
+    </tr>
+    <tr>
+        <th>FAILURE</th>
+        <td>0</td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+
+<table>
+    <tbody>
+    <tr>
+        <th>Check</th>
+        <th>Status</th>
+        <th>Comment</th>
+    </tr>
+    <tr>
+        <td>com.github.t1.check.OkCheck</td>
+        <td>OK</td>
+        <td>foo</td>
+    </tr>
+    <tr>
+        <td>com.github.t1.check.WarningCheck</td>
+        <td>WARNING</td>
+        <td>bar</td>
+    </tr>
+    <tr>
+        <td>com.github.t1.check.UnknownCheck</td>
+        <td>UNKNOWN</td>
+        <td>baz</td>
+    </tr>
+    <tr>
+        <td>com.github.t1.check.OkCheck</td>
+        <td>OK</td>
+        <td>foo</td>
+    </tr>
+    <tr>
+        <td>com.github.t1.check.UnknownCheck</td>
+        <td>UNKNOWN</td>
+        <td>baz</td>
+    </tr>
+    <tr>
+        <td>com.github.t1.check.OkCheck</td>
+        <td>OK</td>
+        <td>foo</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

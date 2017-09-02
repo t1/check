@@ -18,23 +18,6 @@ public class CheckBoundaryTest {
     private void givenChecks(Check... items) { boundary.checks = new MockInstance<>(items); }
 
 
-    private static class OkCheck implements Check {
-        @Override public CheckResult get() { return status(OK).comment("foo").build(); }
-    }
-
-    private static class WarningCheck implements Check {
-        @Override public CheckResult get() { return status(WARNING).comment("bar").build(); }
-    }
-
-    private static class UnknownCheck implements Check {
-        @Override public CheckResult get() { return status(UNKNOWN).comment("baz").build(); }
-    }
-
-    private static class FailureCheck implements Check {
-        @Override public CheckResult get() { return status(FAILURE).comment("boo").build(); }
-    }
-
-
     private CheckResponse checkResponse(Response response) { return (CheckResponse) response.getEntity(); }
 
 
