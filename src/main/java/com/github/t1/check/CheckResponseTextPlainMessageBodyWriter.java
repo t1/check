@@ -57,7 +57,7 @@ public class CheckResponseTextPlainMessageBodyWriter implements MessageBodyWrite
         }
 
         private String check(CheckResult check) {
-            return check.getType().getName() + " " + check.getStatus() + " -- " + check.getComment() + "\n";
+            return check.getType() + " " + check.getStatus() + " -- " + check.getComment() + "\n";
         }
     }
 }

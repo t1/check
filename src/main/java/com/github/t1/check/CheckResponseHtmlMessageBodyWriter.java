@@ -105,7 +105,7 @@ public class CheckResponseHtmlMessageBodyWriter implements MessageBodyWriter<Che
 
         private String check(CheckResult check) {
             return "    <tr>\n"
-                    + "        <td>" + check.getType().getName() + "</td>\n"
+                    + "        <td>" + check.getType() + "</td>\n"
                     + "        <td>" + check.getStatus() + "</td>\n"
                     + "        <td>" + check.getComment() + "</td>\n"
                     + "    </tr>\n";

@@ -5,8 +5,8 @@ import org.junit.*;
 
 import javax.ws.rs.core.Response;
 
-import static com.github.t1.check.Status.*;
 import static com.github.t1.check.Status.OK;
+import static com.github.t1.check.Status.*;
 import static javax.ws.rs.core.Response.Status.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -33,8 +33,7 @@ public class CheckBoundaryTest {
 
     @Test
     public void shouldReturnOneCheck() throws Exception {
-        OkCheck okCheck = new OkCheck();
-        givenChecks(okCheck);
+        givenChecks(new OkCheck());
 
         Response response = boundary.get();
 
@@ -42,23 +41,7 @@ public class CheckBoundaryTest {
         assertThat(check.getSummary().getStatus()).isEqualTo(OK);
         assertThat(check.getSummary().getCounters()).isEqualTo(Status.mapOf(1, 0, 0, 0));
         assertThat(check.getChecks()).containsExactly(
-                CheckResult.of(OkCheck.class).status(OK).comment("foo").build());
-
-        assertThat(((MockInstance<Check>) boundary.checks).getDestroyedInstances()).containsExactly(okCheck);
-    }
-
-    @Test
-    public void shouldReturnTwoChecks() throws Exception {
-        givenChecks(new OkCheck(), new WarningCheck());
-
-        Response response = boundary.get();
-
-        CheckResponse check = checkResponse(response);
-        assertThat(check.getSummary().getStatus()).isEqualTo(WARNING);
-        assertThat(check.getSummary().getCounters()).isEqualTo(Status.mapOf(1, 0, 1, 0));
-        assertThat(check.getChecks()).containsExactly(
-                CheckResult.of(OkCheck.class).status(OK).comment("foo").build(),
-                CheckResult.of(WarningCheck.class).status(WARNING).comment("bar").build());
+                CheckResult.builder().type(OkCheck.class.getName()).status(OK).comment("foo").build());
     }
 
     @Test
@@ -71,9 +54,45 @@ public class CheckBoundaryTest {
         assertThat(check.getSummary().getStatus()).isEqualTo(WARNING);
         assertThat(check.getSummary().getCounters()).isEqualTo(Status.mapOf(1, 0, 2, 0));
         assertThat(check.getChecks()).containsExactly(
-                CheckResult.of(OkCheck.class).status(OK).comment("foo").build(),
-                CheckResult.of(WarningCheck.class).status(WARNING).comment("bar").build(),
-                CheckResult.of(WarningCheck.class).status(WARNING).comment("bar").build());
+                CheckResult.builder().type(OkCheck.class.getName()).status(OK).comment("foo").build(),
+                CheckResult.builder().type(WarningCheck.class.getName()).status(WARNING).comment("bar").build(),
+                CheckResult.builder().type(WarningCheck.class.getName()).status(WARNING).comment("bar").build());
+    }
+
+    @Test
+    public void shouldReturnTwoChecks() throws Exception {
+        givenChecks(new OkCheck(), new WarningCheck());
+
+        Response response = boundary.get();
+
+        CheckResponse check = checkResponse(response);
+        assertThat(check.getSummary().getStatus()).isEqualTo(WARNING);
+        assertThat(check.getSummary().getCounters()).isEqualTo(Status.mapOf(1, 0, 1, 0));
+        assertThat(check.getChecks()).containsExactly(
+                CheckResult.builder().type(OkCheck.class.getName()).status(OK).comment("foo").build(),
+                CheckResult.builder().type(WarningCheck.class.getName()).status(WARNING).comment("bar").build());
+    }
+
+    @Test
+    public void shouldDestroyOneCheck() throws Exception {
+        OkCheck okCheck = new OkCheck();
+        givenChecks(okCheck);
+
+        boundary.get();
+
+        assertThat(((MockInstance<Check>) boundary.checks).getDestroyedInstances()).containsExactly(okCheck);
+    }
+
+    @Test
+    public void shouldReturnOneCheckWithCustomTypeString() throws Exception {
+        givenChecks(new Check() {
+            @Override public CheckResult get() { return type("foo").status(WARNING).comment("bar").build(); }
+        });
+
+        Response response = boundary.get();
+
+        CheckResponse check = checkResponse(response);
+        assertThat(check.getChecks().get(0).getType()).isEqualTo("foo");
     }
 
 
@@ -105,7 +124,7 @@ public class CheckBoundaryTest {
     }
 
     @Test
-    public void shouldMapFailiureCheckTo500() throws Exception {
+    public void shouldMapFailureCheckTo500() throws Exception {
         givenChecks(new FailureCheck());
 
         Response response = boundary.get();
