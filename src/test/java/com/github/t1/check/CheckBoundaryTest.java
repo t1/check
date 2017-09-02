@@ -19,9 +19,7 @@ public class CheckBoundaryTest {
 
 
     private static class OkCheck implements Check {
-        @Override public CheckResult get() {
-            return status(OK).comment("foo").build();
-        }
+        @Override public CheckResult get() { return status(OK).comment("foo").build(); }
     }
 
     private static class WarningCheck implements Check {
@@ -52,7 +50,8 @@ public class CheckBoundaryTest {
 
     @Test
     public void shouldReturnOneCheck() throws Exception {
-        givenChecks(new OkCheck());
+        OkCheck okCheck = new OkCheck();
+        givenChecks(okCheck);
 
         Response response = boundary.get();
 
@@ -61,6 +60,8 @@ public class CheckBoundaryTest {
         assertThat(check.getSummary().getCounters()).isEqualTo(Status.mapOf(1, 0, 0, 0));
         assertThat(check.getChecks()).containsExactly(
                 CheckResult.of(OkCheck.class).status(OK).comment("foo").build());
+
+        assertThat(((MockInstance<Check>) boundary.checks).getDestroyedInstances()).containsExactly(okCheck);
     }
 
     @Test
