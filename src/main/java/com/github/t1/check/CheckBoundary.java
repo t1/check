@@ -12,7 +12,7 @@ import static java.util.stream.Collectors.*;
 import static javax.ws.rs.core.Response.Status.*;
 import static javax.ws.rs.core.Response.Status.OK;
 
-@Path("/-system/check")
+@Path("/-system/checks")
 public class CheckBoundary {
     @Inject Instance<Check> checks;
 
