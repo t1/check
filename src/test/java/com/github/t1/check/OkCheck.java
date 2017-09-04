@@ -1,7 +1,14 @@
 package com.github.t1.check;
 
-import static com.github.t1.check.Status.OK;
+import lombok.RequiredArgsConstructor;
 
+import static com.github.t1.check.Status.*;
+
+@RequiredArgsConstructor
 class OkCheck implements Check {
-    @Override public CheckResult get() { return status(OK).comment("foo").build(); }
+    private final String comment;
+
+    public OkCheck() { this("foo"); }
+
+    @Override public CheckResult get() { return status(OK).comment(comment).build(); }
 }
